@@ -1,0 +1,10 @@
+GET http://localhost:3005/api/notes
+
+###
+POST http://localhost:3005/api/notes
+Content-Type: application/json
+
+{
+    "content":"Vs code rest client request",
+    "important": false
+}

@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start":"node index.js",
+    "dev":"nodemon index.js",
       "build:ui": "cd ../NOTES/Frontend/ && rm -rf build && npm run build",
       "deploy": "git push heroku master",
       "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",    
       "logs:prod": "heroku logs --tail"
   },
+  "proxy":"http//localhost:3001",
 
   "keywords": [],
   "author": "",

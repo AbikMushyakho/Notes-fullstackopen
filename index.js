@@ -7,24 +7,24 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname,'Frontend','build')))
 let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    date: "2022-05-30T17:30:31.098Z",
-    important: true,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only Javascript",
-    date: "2022-05-30T18:39:34.091Z",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    date: "2022-05-30T19:20:14.298Z",
-    important: true,
-  },
+  // {
+  //   id: 1,
+  //   content: "HTML is easy",
+  //   date: "2022-05-30T17:30:31.098Z",
+  //   important: true,
+  // },
+  // {
+  //   id: 2,
+  //   content: "Browser can execute only Javascript",
+  //   date: "2022-05-30T18:39:34.091Z",
+  //   important: false,
+  // },
+  // {
+  //   id: 3,
+  //   content: "GET and POST are the most important methods of HTTP protocol",
+  //   date: "2022-05-30T19:20:14.298Z",
+  //   important: true,
+  // },
 ];
 app.get("/", (request, response) => {
  response.sendFile(path.join(__dirname,"Frontend","build","index.html"))
@@ -43,11 +43,11 @@ app.get("/api/notes/:id", (request, response) => {
   }
 });
 const generateId = () => {
-  const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
-
-  return maxId + 2;
-  // const id =Math.floor(Math.random * 90000)
-  // return id
+  // const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
+  // return maxId + 2;
+  const id =Math.floor(Math.random() * Date.now())
+  console.log(id)
+  return id
 };
 app.post("/api/notes", (request, response) => {
   const body = request.body;
@@ -59,7 +59,7 @@ app.post("/api/notes", (request, response) => {
   const note = {
     content: body.content,
     important: body.important || false,
-    date: new Date(),
+    date: body.date || new Date(),
     id: generateId(),
   };
   notes = notes.concat(note);

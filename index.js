@@ -40,8 +40,11 @@ app.get("/api/notes/:id", (request, response) => {
   }
 });
 const generateId = () => {
-  const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
-  return maxId + 1;
+  // const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
+
+  // return maxId + 1;
+  const id =Math.floor(Math.random * 90000)
+  return id
 };
 app.post("/api/notes", (request, response) => {
   const body = request.body;

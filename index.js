@@ -1,8 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const path =require('path');
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname,'Frontend','build')))
 let notes = [
   {
     id: 1,
@@ -24,7 +27,7 @@ let notes = [
   },
 ];
 app.get("/", (request, response) => {
-  response.send("<h1>Hello World!</h1>");
+ response.sendFile(path.join(__dirname,"Frontend","build","index.html"))
 });
 
 app.get("/api/notes", (request, response) => {

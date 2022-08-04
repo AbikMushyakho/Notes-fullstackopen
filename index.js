@@ -1,33 +1,14 @@
 const express = require("express");
 const cors = require("cors");
-const app = express();
 const path =require('path');
+require('dotenv').config()
+const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname,'Frontend','build')));
+const Note = require('./models/note')
 
-app.use(express.static(path.join(__dirname,'Frontend','build')))
 
-const mongoose = require('mongoose')
-const password = 'TxLt1jKTbcERNP9H';
-// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
-const url =
-  `mongodb+srv://AbikMushyakho:${password}@first-cluster.xyztx.mongodb.net/fullstack?authSource=admin&replicaSet=atlas-kmg6s0-shard-0&readPreference=primary&ssl=true`
-
-mongoose.connect(url)
-
-const noteSchema = new mongoose.Schema({
-  content: String,
-  date: Date,
-  important: Boolean,
-})
-noteSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
-const Note = mongoose.model('Note', noteSchema)
 let notes = [
   {
     id: 1,

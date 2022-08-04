@@ -88,6 +88,14 @@ app.put("/api/notes/:id", (request, response) => {
   response.status(201).json(data);
 });
 
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+// handler of requests with unknown endpoint
+app.use(unknownEndpoint)
+
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 

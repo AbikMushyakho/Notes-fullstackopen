@@ -1,13 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-const path =require('path');
-require('dotenv').config()
+const path = require("path");
+require("dotenv").config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname,'Frontend','build')));
-const Note = require('./models/note')
-
+app.use(express.static(path.join(__dirname, "Frontend", "build")));
+const Note = require("./models/note");
 
 let notes = [
   {
@@ -30,45 +29,41 @@ let notes = [
   },
 ];
 app.get("/", (request, response) => {
- response.sendFile(path.join(__dirname,"Frontend","build","index.html"))
+  response.sendFile(path.join(__dirname, "Frontend", "build", "index.html"));
 });
 
 app.get("/api/notes", (request, response) => {
-  Note.find({}).then(notes => {
-    response.json(notes)
+  Note.find({}).then((notes) => {
+    response.json(notes);
+  });
+});
+app.get('/api/notes/:id', (request, response) => {
+  Note.findById(request.params.id).then(note => {
+    response.json(note)
   })
-});
-app.get("/api/notes/:id", (request, response) => {
-  const id = Number(request.params.id);
-  const note = notes.find((note) => note.id === id);
-  if (note) {
-    response.json(note);
-  } else {
-    response.status(404).send("Note not found!!");
-  }
-});
+})
 const generateId = () => {
   // const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
   // return maxId + 2;
-  const id =Math.floor(Math.random() * Date.now())
-  console.log(id)
-  return id
+  const id = Math.floor(Math.random() * Date.now());
+  console.log(id);
+  return id;
 };
 app.post("/api/notes", (request, response) => {
   const body = request.body;
-  if (!body.content) {
+  if (body.content === null) {
     return response.status(400).json({
       error: "content missing",
     });
   }
-  const note = {
+  const note = new Note({
     content: body.content,
     important: body.important || false,
     date: body.date || new Date(),
-    id: generateId(),
-  };
-  notes = notes.concat(note);
-  response.status(201).json(note);
+  });
+  note.save().then((savedNote) => {
+    response.json(savedNote);
+  });
 });
 
 app.delete("/api/notes/:id", (request, response) => {
@@ -78,15 +73,14 @@ app.delete("/api/notes/:id", (request, response) => {
   response.status(204).end();
 });
 
-app.put("/api/notes/:id",(request,response)=>{
+app.put("/api/notes/:id", (request, response) => {
   const id = Number(request.params.id);
   const data = request.body;
 
   notes = notes.filter((note) => note.id !== id);
   notes.concat(data);
-  response.status(201).json(data)
-
-})
+  response.status(201).json(data);
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

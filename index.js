@@ -37,11 +37,17 @@ app.get("/api/notes", (request, response) => {
     response.json(notes);
   });
 });
-app.get('/api/notes/:id', (request, response) => {
-  Note.findById(request.params.id).then(note => {
-    response.json(note)
-  })
-})
+app.get("/api/notes/:id", (request, response, next) => {
+  Note.findById(request.params.id)
+    .then((note) => {
+      if (note) {
+        response.json(note);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
+});
 const generateId = () => {
   // const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0;
   // return maxId + 2;
@@ -81,6 +87,20 @@ app.put("/api/notes/:id", (request, response) => {
   notes.concat(data);
   response.status(201).json(data);
 });
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
+// this has to be the last loaded middleware.
+app.use(errorHandler)
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

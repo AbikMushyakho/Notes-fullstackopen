@@ -6,6 +6,28 @@ app.use(cors());
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname,'Frontend','build')))
+
+const mongoose = require('mongoose')
+const password = 'TxLt1jKTbcERNP9H';
+// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+const url =
+  `mongodb+srv://AbikMushyakho:${password}@first-cluster.xyztx.mongodb.net/fullstack?authSource=admin&replicaSet=atlas-kmg6s0-shard-0&readPreference=primary&ssl=true`
+
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  date: Date,
+  important: Boolean,
+})
+noteSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
+const Note = mongoose.model('Note', noteSchema)
 let notes = [
   {
     id: 1,
@@ -31,7 +53,9 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/notes", (request, response) => {
-  response.json(notes);
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 });
 app.get("/api/notes/:id", (request, response) => {
   const id = Number(request.params.id);

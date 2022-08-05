@@ -11,7 +11,7 @@ POST {{hostname}}/api/notes
 Content-Type: application/json
 
 {
-    "content":"New Noted",
+    "content":"abc",
     "important": false
 }
 

@@ -21,22 +21,22 @@ mongoose
   .connect(url)
   .then((result) => {
     console.log('connected')
- 
+
   })
-  const note = new Note({
-    content: 'HTML is Easy',
-    date: new Date(),
-    important: true,
-  })
+const note = new Note({
+  content: 'HTML is Easy',
+  date: new Date(),
+  important: true,
+})
 
 //   note.save().then(() => {
 //     console.log('note saved!')
 //     return mongoose.connection.close()
 //   })
 //   .catch((err) => console.log(err))
-Note.find({important: true }).then(result => {
-    result.forEach(note => {
-      console.log(note)
-    })
-    mongoose.connection.close()
+Note.find({ important: true }).then(result => {
+  result.forEach(note => {
+    console.log(note)
   })
+  mongoose.connection.close()
+})

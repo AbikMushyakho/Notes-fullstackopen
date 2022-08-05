@@ -20,7 +20,7 @@ PUT {{hostname}}/api/notes/62ec0723793ef51392dafda2
 Content-Type: application/json
 
 {
-    "content":"New Note 123",
+    "content":"lol",
     "important": false
 }
 

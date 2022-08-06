@@ -1,9 +1,6 @@
 # Heroku
 [https://notes-application-full-stack.herokuapp.com/](https://notes-application-full-stack.herokuapp.com/)
 
-# THis is first
-[http//:localhost:3000/](https://fullstackopen.com/en/part3/deploying_app_to_internet#exercises-3-9-3-11)
-
 
 
 # EsLint 
@@ -14,3 +11,92 @@ Generically, lint or a linter is any tool that detects and flags errors in progr
 
  more about [ESlint](https://fullstackopen.com/en/part3/validation_and_es_lint#lint)<br/>
 [Airbnb Package](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb)
+
+
+# Unit testing using jest
+ 
+ a. install jest as a development dependency- 
+ `npm install jest --save-dev `
+
+```
+"scripts": {
+    //...
+    "test":"jest --verbose"
+    } 
+```
+b. add the following to the end of package.json:
+```
+{
+ //...
+ "jest": {
+   "testEnvironment": "node"
+ }
+}
+```
+// OR
+create *jest.config.js* file and add configuration as given below;
+
+```
+module.exports = {
+  testEnvironment :'node'
+}
+```
+
+c. add 'jest':true in .eslintrc.js file with "node":true 
+
+
+
+# Backend Testing
+
+## Test environment
+  1. change in package.json file
+```
+   "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "test": "NODE_ENV=test jest --verbose --runInBand"
+```
+  2. If not working on windows then install *cross-env* package
+`npm install cross-env --save-dev`
+
+3. achieve cross-platform compatibility by using the cross-env
+```
+ "start": "cross-env NODE_ENV=production node index.js",
+  "dev": "cross-env NODE_ENV=development nodemon index.js",
+  "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+
+```
+4. if hosting on heroku then install *cross-env* as production
+`npm install cross-env -P` 
+
+## Super test to test API
+a. installtion `npm install supertest --save-dev`
+
+b. Test notes return a json 
+```
+const mongoose =require('mongoose')
+const supertest =require('supertest')
+const app = require('../app')
+
+const api = supertest(app)
+test('notes are returned as json',async() => {
+  await api.get('/api/notes').expect(200).expect('Content-Type',/applicaion\/json/)
+})
+
+afterAll(() => {
+  mongoose.connection.close()
+})
+```
+
+c. Mongodb doesnot suppport jest for testing but we can do it by addding this command
+`"test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit"`
+
+d. extend jest timeout
+  => add third parameter in test function as *1000000*
+
+
+
+### Avoiding try catch block by handling error 
+the error is handled by new npm  package called *express-async-error*
+
+a. Initialize `npm install express-async-errors`
+b. usages  `require('express-async-errors)`

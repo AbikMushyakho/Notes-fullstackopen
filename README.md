@@ -129,3 +129,8 @@ usages
 
 ### populate in mongoose
 `await Note.find({}).populate('user',{ username:1,name:1 })`
+
+# Token Authentication
+lets intalls a jsonwebtoken which generates the JSON web tokens.
+
+`npm install jsonwebtoken`

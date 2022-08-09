@@ -11,8 +11,9 @@ POST {{hostname}}/api/notes
 Content-Type: application/json
 
 {
-    "content":"abc",
-    "important": false
+    "content":"Hello11231",
+    "important": false,
+    "userId":"62f1f73bba11b41a70a562b9"
 }
 
 ###

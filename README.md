@@ -100,3 +100,32 @@ the error is handled by new npm  package called *express-async-error*
 
 a. Initialize `npm install express-async-errors`
 b. usages  `require('express-async-errors)`
+
+
+
+# User Administration
+Store notes object ids as an array of Mongoos in *models/user.js* file
+The user schema can contain the following to store the object ids
+```
+{
+  type:mongoose.Schema.Types.ObjectId,
+  ref:'Note'
+}
+```
+
+add reference in *model/note.js* file to know who created the note.
+```
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
+
+```
+## Creating Users 
+Instead of storing plan text password, Bcrypt is the suitable package which is used to generated the password hashes also including the salt rounds.
+
+usages
+`npm install bcrypt`
+
+### populate in mongoose
+`await Note.find({}).populate('user',{ username:1,name:1 })`

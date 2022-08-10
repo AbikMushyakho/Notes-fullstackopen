@@ -9,11 +9,11 @@ GET {{hostname}}/api/notes/62ec0723793ef51392dafda2
 ###
 POST {{hostname}}/api/notes
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiaWsiLCJpZCI6IjYyZjIwMGI2MjBmOGQwYzg5ZTc0YTI0NyIsImlhdCI6MTY2MDAyNzY2N30.gizEueCqSBh3NStOCUMsqqMOZwSC1E7IM_gK1SmFwj8
 
 {
     "content":"Hello11231",
-    "important": false,
-    "userId":"62f1f73bba11b41a70a562b9"
+    "important": false
 }
 
 ###

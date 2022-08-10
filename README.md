@@ -134,3 +134,7 @@ usages
 lets intalls a jsonwebtoken which generates the JSON web tokens.
 
 `npm install jsonwebtoken`
+
+# Part 5 
+a. Login in frontend
+

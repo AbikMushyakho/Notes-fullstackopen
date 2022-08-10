@@ -138,3 +138,22 @@ lets intalls a jsonwebtoken which generates the JSON web tokens.
 # Part 5 
 a. Login in frontend
 
+## Prop types in frontend
+it helps to set the attribute type of the props
+`npm install prop-types`
+
+Usages
+```
+import PropTypes from 'prop-types'
+
+const Togglable = React.forwardRef((props, ref) => {
+  // ..
+})
+
+Togglable.propTypes = {
+  buttonLabel: PropTypes.string.isRequired
+}
+```
+
+### React test with ESLINT 
+`npm install --save-dev eslint-plugin-jest`
